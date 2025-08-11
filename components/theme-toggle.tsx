@@ -35,19 +35,45 @@ export function ThemeToggle() {
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      toggleTheme()
+    }
+  }
+
+  const getThemeLabel = () => {
+    return isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+  }
+
+  const getThemeDescription = () => {
+    return isDarkMode 
+      ? "Currently using dark theme. Click to switch to light theme." 
+      : "Currently using light theme. Click to switch to dark theme."
+  }
+
   return (
     <Button
       variant="outline"
       size="icon"
       onClick={toggleTheme}
-      className={`rounded-full transition-all duration-300 ${
+      onKeyDown={handleKeyDown}
+      className={`rounded-full transition-all duration-300 min-w-[44px] min-h-[44px] ${
         isDarkMode
           ? "bg-indigo-900 text-yellow-300 border-yellow-500 hover:bg-indigo-800 hover:text-yellow-200"
           : "bg-amber-100 text-indigo-600 border-amber-300 hover:bg-amber-200 hover:text-indigo-700"
       }`}
-      aria-label="Toggle theme"
+      aria-label={getThemeLabel()}
+      title={getThemeLabel()}
+      role="button"
+      tabIndex={0}
+      aria-describedby="theme-description"
+      aria-pressed={isDarkMode}
     >
       {isDarkMode ? <Moon className="h-5 w-5 transition-all" /> : <Sun className="h-5 w-5 transition-all" />}
+      <span id="theme-description" className="sr-only">
+        {getThemeDescription()}
+      </span>
     </Button>
   )
 }

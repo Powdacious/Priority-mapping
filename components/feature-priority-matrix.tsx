@@ -440,9 +440,9 @@ export default function FeaturePriorityMatrix() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" role="main" aria-label="Feature Priority Matrix">
       {/* Input Form */}
-      <Card className="lg:col-span-1">
+      <Card className="lg:col-span-1" role="form" aria-label="Add new feature form">
         <CardHeader className="bg-slate-50 dark:bg-slate-900/30 rounded-t-lg">
           <CardTitle>Add Feature</CardTitle>
           <CardDescription>Enter feature details and rate its value to users and cost to build</CardDescription>
@@ -510,7 +510,7 @@ export default function FeaturePriorityMatrix() {
             </div>
 
             {error && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" role="alert" aria-live="polite">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -525,7 +525,7 @@ export default function FeaturePriorityMatrix() {
       </Card>
 
       {/* Matrix and Affinity Views */}
-      <Card className="lg:col-span-2">
+      <Card className="lg:col-span-2" role="region" aria-label="Feature visualization and analysis">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Feature Priority Visualization</CardTitle>
@@ -555,12 +555,12 @@ export default function FeaturePriorityMatrix() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="matrix" className="w-full" value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="matrix" className="flex items-center gap-2">
-                <Grid className="h-4 w-4" />
+            <TabsList className="grid w-full grid-cols-3 mb-6" role="tablist" aria-label="Feature visualization options">
+              <TabsTrigger id="matrix-tab" value="matrix" className="flex items-center gap-2" role="tab" aria-selected={activeTab === "matrix"}>
+                <Grid className="h-4 w-4" aria-hidden="true" />
                 Matrix View
               </TabsTrigger>
-              <TabsTrigger value="affinity" className="flex items-center gap-2">
+              <TabsTrigger value="affinity" className="flex items-center gap-2" role="tab" aria-selected={activeTab === "affinity"}>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   width="16" 
@@ -572,6 +572,7 @@ export default function FeaturePriorityMatrix() {
                   strokeLinecap="round" 
                   strokeLinejoin="round" 
                   className="h-4 w-4"
+                  aria-hidden="true"
                 >
                   <line x1="4" y1="6" x2="20" y2="6"></line>
                   <line x1="4" y1="12" x2="14" y2="12"></line>
@@ -582,17 +583,17 @@ export default function FeaturePriorityMatrix() {
                 </svg>
                 Affinity View
               </TabsTrigger>
-              <TabsTrigger value="stacked" className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4" />
+              <TabsTrigger value="stacked" className="flex items-center gap-2" role="tab" aria-selected={activeTab === "stacked"}>
+                <BarChart3 className="h-4 w-4" aria-hidden="true" />
                 Stacked Rank
               </TabsTrigger>
             </TabsList>
 
             {/* Matrix View */}
-            <TabsContent value="matrix">
-              <div className="relative" ref={matrixRef}>
-                {/* Matrix Headers */}
-                <div className="flex mb-2">
+            <TabsContent value="matrix" role="tabpanel" aria-labelledby="matrix-tab">
+                              <div className="relative" ref={matrixRef} role="grid" aria-label="Feature priority matrix">
+                  {/* Matrix Headers */}
+                  <div className="flex mb-2" role="row" aria-label="Cost to build scale">
                   <div className="w-1/6"></div>
                   <div className="w-5/6 flex justify-between px-2">
                     {costOptions.map((option) => (
